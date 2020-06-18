@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 
-const countHits = (WrappedComponent) => {
+const countHits = (WrappedComponent, power) => {
 
     class CountHits extends Component {
       state = {
@@ -12,6 +12,13 @@ const countHits = (WrappedComponent) => {
           return {hits : prevState.hits + 1}
         })
       }
+
+      componentDidUpdate(prevProps, prevState) {
+        if (this.state !== prevState){
+          const CompName = WrappedComponent.name;
+          this.props.reduceHandler(CompName, power);
+        }
+      }
       render(){
         return <WrappedComponent donnerUnCoup={this.donnerUnCoup} hocState={this.state} {...this.props}/>
       }
@@ -19,7 +26,4 @@ const countHits = (WrappedComponent) => {
     return CountHits
 
 }
-
-
-
 export default countHits
